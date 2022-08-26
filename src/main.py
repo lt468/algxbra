@@ -10,7 +10,8 @@ import obs as o
 pygame.init()
 
 # Variables
-# Title size
+# Title size - title size will change dependent on the scale of the width
+# TODO clean this up a little bit?
 title_size_factor = (c.display_width / c.display_width_default)
 title_size = int(c.title_size*title_size_factor)
 
@@ -31,7 +32,7 @@ def main():
 
 def menuScreen():
     # Instantiate text to screen
-    test1 = o.Text("algxbra", font_size=title_size, font="conthrax") 
+    title = o.Text("algxbra", font_size=title_size, font="conthrax") 
 
     menuExit = False
     while not menuExit:
@@ -44,12 +45,8 @@ def menuScreen():
 
         # Filling background colour
         gameDisplay.fill(c.white)
-        test1.message_to_screen(((c.display_width / 2) - test1.size_of_message()[0]/2), c.title_depth)
-
-        # fonts = pygame.font.get_fonts()
-        # sorted_list = sorted(fonts)
-        # print(sorted_list)
-        # menuExit = True
+        # Display title - maybe short out depth of title???
+        title.message_to_screen(((c.display_width / 2) - title.size_of_message()[0]/2), c.title_depth)
 
         pygame.display.update()
         clock.tick(c.FPS)
@@ -57,3 +54,5 @@ def menuScreen():
 # Starting program
 if __name__ == "__main__":
     main()
+
+# TODO add some comments and track things in the README file
