@@ -1,7 +1,8 @@
 # Importing libraries
 import pygame
 
-# Constants 
+""" Constants """
+
 # Colours
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -13,7 +14,7 @@ FPS = 30
 display_width_default = 854 
 display_height_default = 480
 
-display_width = 854 
+display_width = 845
 display_height = 480
 dim = (display_width, display_height)
 
@@ -21,7 +22,7 @@ dim = (display_width, display_height)
 screen = pygame.display.set_mode(dim)
 
 # Font sizes (default is for 854px x 480px)
+title_size_factor = (display_width / display_width_default)
 title_size = 100 * (display_width/display_width_default)  
-title_depth = 30
+title_depth = 0
 
-# TODO ensure it's only the most fundamental constants here

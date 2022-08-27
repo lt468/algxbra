@@ -8,12 +8,17 @@ import consts as c
 class Text:
     # Constructor
     def __init__(self, msg:str, font_size=25, font="mathjaxmath", colour=(c.black), aa=True, screen=c.screen):
-        # Assigning variables to self object
+        # Message that is displaye on screen
         self.msg = msg
+        # Size of the font
         self.__font_size = font_size
+        # Font type
         self.__font = pygame.font.SysFont(font, self.__font_size)
+        # Font colour
         self.color = colour
+        # Font anti-aliasing
         self.__aa = aa
+        # Where to display font
         self.__screen = screen
 
     # Make font a read only variable
