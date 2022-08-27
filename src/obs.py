@@ -48,6 +48,12 @@ class Text:
 
     # Size of message function
     def size_of_message(self):
-        return(self.__font.size(self.msg))
+        return (self.__font.size(self.msg))
+
+    # Returning a rectangle
+    def rect(self, x, y):
+        self.screen_text = self.__font.render(self.msg, self.__aa, self.color)
+        return self.screen_text.get_rect(topleft=(x, y))
+
 
 
