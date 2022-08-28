@@ -1,3 +1,4 @@
 {
-    "reportGeneralTypeIssues": "none"
+    "reportGeneralTypeIssues": "none",
+    "reportOptionalMemberAccess": "none"
 }
