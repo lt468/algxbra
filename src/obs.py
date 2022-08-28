@@ -2,12 +2,12 @@
 import pygame
 
 # Importing files
-import consts as c
+import main as m
 
 # Message to Screen class
 class Text:
-    # Constructor
-    def __init__(self, msg:str, font_size=25, font="mathjaxmath", colour=(c.black), aa=True, screen=c.screen):
+    """ Constructor """
+    def __init__(self, msg:str, font_size=25, font="mathjaxmath", colour=(m.black), aa=True, screen=m.gameDisplay):
         # Message that is displaye on screen
         self.msg = msg
         # Size of the font
@@ -21,39 +21,30 @@ class Text:
         # Where to display font
         self.__screen = screen
 
-    # Make font a read only variable
+    """ Private variables """
     @property
     def font(self):
         return self.__font
-
-    # Make font_size a read only variable
     @property
     def font_size(self):
         return self.__font_size
-
-    # Make aa a read only variable
     @property
     def aa(self):
         return self.__aa
-
-    # Make screen a read only variable
     @property
     def screen(self):
         return self.__screen
 
-    # Method to send the message to the screen
-    def message_to_screen(self, x, y):
+    # Method to send the message to the screen, returns a rectangele of its coordinates
+    def message_to_screen(self, x, y, return_val=True):
         self.screen_text = self.__font.render(self.msg, self.__aa, self.color)
         self.__screen.blit(self.screen_text, (x, y)) 
+        if return_val == True:
+            return self.screen_text.get_rect(topleft=(x, y))
+        else:
+            return None
 
-    # Size of message function
+    # Method to get the size of the message
     def size_of_message(self):
         return (self.__font.size(self.msg))
-
-    # Returning a rectangle
-    def rect(self, x, y):
-        self.screen_text = self.__font.render(self.msg, self.__aa, self.color)
-        return self.screen_text.get_rect(topleft=(x, y))
-
-
 
