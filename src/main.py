@@ -13,15 +13,18 @@ pygame.init()
 display_width_default = 854 
 display_height_default = 480
 
-display_width = display_width_default
-display_height = display_height_default
+# Get the size of the monitor
+fetchDim = pygame.display.Info()
+
+display_width = fetchDim.current_w
+display_height = fetchDim.current_h
 dim = (display_width, display_height)
 
 # Normalization constant
 norm = math.sqrt(((display_width / display_width_default) ** 2) + ((display_height / display_height_default) ** 2))
 
 # Creating screen 
-gameDisplay = pygame.display.set_mode(dim)
+gameDisplay = pygame.display.set_mode(dim, pygame.FULLSCREEN)
 
 # Setting title and icon
 pygame.display.set_caption("algxbra")

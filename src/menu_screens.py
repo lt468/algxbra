@@ -1,6 +1,8 @@
 # Importing libraries
 import pygame
 import sys
+# The only way I can get tkinter to work
+from tkinter import *
 
 # Importing files
 import main as m
@@ -39,32 +41,35 @@ def menuScreen():
     options_y_coord = play_y_coord - y_buff + available_y
     quit_y_coord = options_y_coord - y_buff + available_y
 
-    menuExit = False
-    while not menuExit:
+    main_menu_loop = True
+    while main_menu_loop:
         # Mouse button click
-        click = pygame.mouse.get_pressed()
+        Click = False
 
         # Checking if quit button pressed
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                menuExit = True
+                main_menu_loop = False
                 pygame.display.quit()
                 pygame.quit()
                 sys.exit("Game Quit: x-button pressed (0)")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    Click = True
 
         # Filling background colour
         m.gameDisplay.fill(m.white)
 
         # Displaying messages
-        title.message_to_screen(title_x_coord, title_depth, return_val=False)
+        title.message_to_screen(title_x_coord, title_depth)
         play_rect = play_sub_title.message_to_screen(play_x_coord, play_y_coord)
         options_rect = options_sub_title.message_to_screen(options_x_coord, options_y_coord)
         quit_rect = quit_sub_title.message_to_screen(quit_x_coord, quit_y_coord)
 
         if play_rect.collidepoint(pygame.mouse.get_pos()):
             play_sub_title.color = m.gray
-            if click[0] == 1:
-                print("Play")
+            if Click:
+                print("Clicked")
         else:
             play_sub_title.color = m.black
 
@@ -75,15 +80,51 @@ def menuScreen():
 
         if quit_rect.collidepoint(pygame.mouse.get_pos()):
             quit_sub_title.color = m.gray
-            if click[0] == 1:
-                menuExit = True
-                pygame.display.quit()
-                pygame.quit()
-                sys.exit("Game Quit: quit button pressed (0)")
+            if Click:
+                quit_confir()
         else:
             quit_sub_title.color = m.black
 
         pygame.display.update()
         m.clock.tick(m.FPS)
         
+""" Quit confirmation box """ 
+def quit_confir():
+    # So it can be accessed in other functions
+    global root
+    r_w = int(m.display_width/3)
+    r_h = int(m.display_height/3)
+
+    # Dimensions of box, w, h, x_coord, y_coord
+    dim_string = f"{r_w}x{r_h}+{r_w}+{r_h}"
+    root = Tk()
+    
+    # Hiding title bar
+    root.overrideredirect(True)
+    root.geometry(dim_string)
+    root.config(bg="white")
+
+    # Setting box attributes - TODO: make this more dynamic/varaible
+    w = Label(root, text="Are you sure \nyou want to quit?", font=(title_font, 20), bg="white")
+    w.pack(pady=20)
+
+    # Buttons
+    back_button = Button(root, text="Back", command=back_menuScreen, bg="black", fg="white", font=(title_font, 15))
+    back_button.pack(pady=50, padx=50, side=LEFT)
+
+    quit_button = Button(root, text="Quit", command=quit_game, bg="black", fg="white", font=(title_font, 15))
+    quit_button.pack(pady=50, padx=50, side=RIGHT)
+
+    root.mainloop()
+
+""" Function to close the quit_confir window and return to the menuScreen"""
+def back_menuScreen():
+    root.destroy()
+    menuScreen()
+
+""" General quit game function """
+def quit_game():
+    pygame.display.quit()
+    pygame.quit()
+    sys.exit("Game Quit: Quitted via quit button (0)")
 

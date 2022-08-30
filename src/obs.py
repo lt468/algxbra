@@ -36,13 +36,10 @@ class Text:
         return self.__screen
 
     # Method to send the message to the screen, returns a rectangele of its coordinates
-    def message_to_screen(self, x, y, return_val=True):
+    def message_to_screen(self, x, y):
         self.screen_text = self.__font.render(self.msg, self.__aa, self.color)
         self.__screen.blit(self.screen_text, (x, y)) 
-        if return_val == True:
-            return self.screen_text.get_rect(topleft=(x, y))
-        else:
-            return None
+        return self.screen_text.get_rect(topleft=(x, y))
 
     # Method to get the size of the message
     def size_of_message(self):
