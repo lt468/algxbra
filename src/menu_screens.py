@@ -20,6 +20,7 @@ sub_title_size = int(50 * m.norm)
 # Title font
 title_font = "conthrax"
 
+""" Menu screen function """
 def menuScreen():
     # Instantiate text to screen
     title = o.Text("algxbra", font_size=title_size, font=title_font) 
