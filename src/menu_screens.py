@@ -1,4 +1,6 @@
 # Importing libraries
+from ctypes import create_string_buffer
+import time
 import pygame
 import sys
 # The only way I can get tkinter to work
@@ -70,7 +72,7 @@ def menuScreen():
         if play_rect.collidepoint(pygame.mouse.get_pos()):
             play_sub_title.color = m.gray
             if Click:
-                print("Clicked")
+                play_confir()
         else:
             play_sub_title.color = m.black
 
@@ -110,7 +112,7 @@ def quit_confir():
     w.pack(pady=20)
 
     # Buttons
-    back_button = Button(root, text="Back", command=back_menuScreen, bg="black", fg="white", font=(title_font, 15))
+    back_button = Button(root, text="Back", command=(lambda: root.destroy()), bg="black", fg="white", font=(title_font, 15))
     back_button.pack(pady=50, padx=50, side=LEFT)
 
     quit_button = Button(root, text="Quit", command=quit_game, bg="black", fg="white", font=(title_font, 15))
@@ -118,10 +120,63 @@ def quit_confir():
 
     root.mainloop()
 
-""" Function to close the quit_confir window and return to the menuScreen"""
-def back_menuScreen():
-    root.destroy()
-    menuScreen()
+""" Play confirmation box """ 
+def play_confir():
+    # So it can be accessed in other functions
+    global root2
+    global cease
+    cease = False
+    r_w = int(m.display_width/3)
+    r_h = int(m.display_height/3)
+
+    # Dimensions of box, w, h, x_coord, y_coord
+    dim_string = f"{r_w}x{r_h}+{r_w}+{r_h}"
+    root2 = Tk()
+    
+    # Hiding title bar
+    root2.overrideredirect(True)
+    root2.geometry(dim_string)
+    root2.config(bg="white")
+
+    # Setting box attributes - TODO: make this more dynamic/varaible
+    w = Label(root2, text="Get ready...", font=(title_font, 25), bg="white")
+    w.pack(pady=20, side=TOP)
+
+    # Buttons
+    back_button = Button(root2, text="Back", command=(lambda: play_back()), bg="black", fg="white", font=(title_font, 15))
+    back_button.pack(pady=50, padx=50, side=BOTTOM)
+
+    # Timer functionality
+    t = 5
+    start = time.time()
+    t_label = Label(root2, text=count_down(t), font=(title_font, 33), bg="white", fg="red")
+    t_label.pack(side=TOP)
+
+    # TODO - maybe make this a bit more tidier
+    t_label.after(1000, lambda:t_label.config(text=count_down(4)))
+    t_label.after(2000, lambda:t_label.config(text=count_down(3)))
+    t_label.after(3000, lambda:t_label.config(text=count_down(2)))
+    t_label.after(4000, lambda:t_label.config(text=count_down(1)))
+    t_label.after(5000, lambda:t_label.config(text="GO!", fg="green"))
+
+    while not cease:
+        root2.update_idletasks()
+        root2.update()
+        end = time.time()
+        if (end - start) >= 6:
+            print("Play")
+            play_back()
+
+
+""" Play/Back button functionality"""
+def play_back():
+    global cease
+    cease = True
+    root2.destroy()
+
+""" Count down timer funciton """
+def count_down(t):
+    return("{:01d}".format(t))
 
 """ General quit game function """
 def quit_game():

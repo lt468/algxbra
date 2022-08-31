@@ -9,6 +9,15 @@ import menu_screens as menu
 pygame.init()
 
 """ Global variables """
+# Display resolutions
+# 2160p: 3840×2160
+# 1440p: 2560×1440
+# 1080p: 1920×1080
+# 720p: 1280×720
+# 480p: 854×480
+# 360p: 640×360
+# 240p: 426×240
+
 # Display size
 display_width_default = 854 
 display_height_default = 480
