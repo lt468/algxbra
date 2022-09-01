@@ -27,13 +27,16 @@ fetchDim = pygame.display.Info()
 
 display_width = fetchDim.current_w
 display_height = fetchDim.current_h
+# display_width = display_width_default
+# display_height = display_height_default
 dim = (display_width, display_height)
+mid_of_screen = (int((display_width / 2)), int((display_height / 2)))
 
 # Normalization constant
 norm = math.sqrt(((display_width / display_width_default) ** 2) + ((display_height / display_height_default) ** 2))
 
 # Creating screen 
-gameDisplay = pygame.display.set_mode(dim, pygame.FULLSCREEN)
+gameDisplay = pygame.display.set_mode(dim)
 
 # Setting title and icon
 pygame.display.set_caption("algxbra")

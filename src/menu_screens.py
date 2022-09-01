@@ -1,5 +1,4 @@
 # Importing libraries
-from ctypes import create_string_buffer
 import time
 import pygame
 import sys
@@ -9,6 +8,7 @@ from tkinter import *
 # Importing files
 import main as m
 import obs as o
+import play_game as play
 
 """ Global varaibels - used by all functions in menu_screens.py """
 """ Font sizes (default is for 854px x 480px) """
@@ -53,9 +53,7 @@ def menuScreen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 main_menu_loop = False
-                pygame.display.quit()
-                pygame.quit()
-                sys.exit("Game Quit: x-button pressed (0)")
+                quit_game()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     Click = True
@@ -165,7 +163,20 @@ def play_confir():
         end = time.time()
         if (end - start) >= 6:
             print("Play")
-            play_back()
+            play_go()
+
+
+""" Play/Back button functionality"""
+def play_go():
+    global cease
+    cease = True
+    # Fixes bug where main menu would show for a short time
+    m.gameDisplay.fill(m.white)
+    pygame.display.update()
+    m.clock.tick(m.FPS)
+    root2.destroy()
+    # Calls the game
+    play.play_screen()
 
 
 """ Play/Back button functionality"""
@@ -182,5 +193,5 @@ def count_down(t):
 def quit_game():
     pygame.display.quit()
     pygame.quit()
-    sys.exit("Game Quit: Quitted via quit button (0)")
+    sys.exit("Game Quit (0)")
 
