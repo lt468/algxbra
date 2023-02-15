@@ -2,6 +2,8 @@
 import pygame
 import math
 
+from pygame.font import match_font
+
 # Importing files
 import menu_screens as menu
 
@@ -25,12 +27,14 @@ display_height_default = 480
 # Get the size of the monitor
 fetchDim = pygame.display.Info()
 
-display_width = fetchDim.current_w
-display_height = fetchDim.current_h
-# display_width = display_width_default
-# display_height = display_height_default
+display_width_native = fetchDim.current_w
+display_height_native = fetchDim.current_h
+
+display_width = display_width_default
+display_height = display_height_default
+
 dim = (display_width, display_height)
-mid_of_screen = (int((display_width / 2)), int((display_height / 2)))
+mid_of_screen = (int((display_width_native / 2)), int((display_height_native / 2)))
 
 # Normalization constant
 norm = math.sqrt(((display_width / display_width_default) ** 2) + ((display_height / display_height_default) ** 2))
@@ -54,6 +58,11 @@ gray = (128, 128, 128)
 
 # FPS
 FPS = 30
+
+# Fonts
+title_font = "conthrax"
+math_font_let = "mathjaxmain"
+math_font_num = "mathjaxmath"
 
 def main():
     menu.menuScreen()
