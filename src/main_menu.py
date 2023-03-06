@@ -45,6 +45,7 @@ display_height_native = fetch_dim.current_h # Gets the height
 # Replace with native to have fullscreen windowed mode
 display_width = display_width_default 
 display_height = display_height_default
+#test
 
 # Dimensions
 dim = (display_width, display_height)
