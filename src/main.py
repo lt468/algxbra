@@ -1,8 +1,8 @@
-# Importing libraries
+#Importing libraries
 import pygame
 import math
 
-from pygame.font import match_font
+# from pygame.font import match_font
 
 # Importing files
 import menu_screens as menu
@@ -27,10 +27,12 @@ display_height_default = 480
 # Get the size of the monitor
 fetchDim = pygame.display.Info()
 
-display_width_native = fetchDim.current_w
-display_height_native = fetchDim.current_h
+display_width_native = fetchDim.current_w # Gets the width
+display_height_native = fetchDim.current_h # Gets the height
 
-display_width = display_width_default
+# Sets the display width and heigth to the default values
+# Replace with native to have fullscreen windowed mode
+display_width = display_width_default 
 display_height = display_height_default
 
 dim = (display_width, display_height)
@@ -43,8 +45,8 @@ norm = math.sqrt(((display_width / display_width_default) ** 2) + ((display_heig
 gameDisplay = pygame.display.set_mode(dim)
 
 # Setting title and icon
-pygame.display.set_caption("algxbra")
-icon = pygame.image.load("../mda/algxbra_icon.png")
+pygame.display.set_caption("algxbra") 
+icon = pygame.image.load("../mda/algxbra_icon.png") # TODO: can round off logo to make it more aesthetic in the future
 pygame.display.set_icon(icon)
 
 # Clock
@@ -64,6 +66,7 @@ title_font = "conthrax"
 math_font_let = "mathjaxmain"
 math_font_num = "mathjaxmath"
 
+# I don't know if this is a valid way of doing this?
 def main():
     menu.menuScreen()
 

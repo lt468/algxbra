@@ -135,10 +135,8 @@ class Tk_gui:
     def timer(self, size):
         v = Label(self.root, text="5", font=(self.font, int(20 * m.norm**1.5)), bg=self.bg_col, fg="red")
         self.w.update()
-        # TODO - is there an actual way to get this centred?
         pad_y = int((int(self.r_h / 2) - self.w.winfo_height() - size[1] - v.winfo_width()) / 2)
         v.pack(pady=pad_y, side=TOP)
-        # TODO Main - finish timer then do rest of TODOs
 
     """ Main loop """
     def main_loop(self):

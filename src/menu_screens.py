@@ -2,7 +2,7 @@
 import time
 import pygame
 import sys
-# The only way I can get tkinter to work
+# The only way I can get tkinter to work - TODO: fix this, read the documentation!!
 from tkinter import *
 
 # Importing files
@@ -18,6 +18,7 @@ title_depth = 0
 
 # Sub title sizes
 sub_title_size = int(50 * m.norm)
+print(m.norm)
 
 """ Menu screen function """
 def menuScreen():
@@ -67,6 +68,7 @@ def menuScreen():
         options_rect = options_sub_title.message_to_screen(options_x_coord, options_y_coord)
         quit_rect = quit_sub_title.message_to_screen(quit_x_coord, quit_y_coord)
 
+        # Up to here in understanding things again, comment the shit out of this and maybe add some documentation?
         if play_rect.collidepoint(pygame.mouse.get_pos()):
             play_sub_title.color = m.gray
             if Click:
