@@ -4,6 +4,7 @@
 import pygame as pg
 import sys
 import time
+import csv
 
 # Importing files
 import math_questions as mq
@@ -59,7 +60,6 @@ dim_halved = ((display_width // 2), (display_height // 2))
 mid_of_screen = (int((display_width_native / 2)), int((display_height_native / 2)))
 sub_titles_dim = (dim_halved[1], dim_halved[1] + (dim_halved[1] // 3), dim_halved[1] + (dim_halved[1]*2 // 3) )
 
-
 # Normalization - TODO with magnitudes and vector normalization
 # mag = math.sqrt(((display_width / display_width_default) ** 2) + ((display_height / display_height_default) ** 2))
 
@@ -76,6 +76,7 @@ clock = pg.time.Clock()
 
 """ Menu screen function """
 def menuScreen():
+    # Sets the colour first to black
     sub_title_colour_play = black
     sub_title_colour_opt = black
     sub_title_colour_quit = black
@@ -133,7 +134,7 @@ def menuScreen():
             sub_title_colour_play = gray
             if click:
                 main_menu_loop = False
-                play_game()
+                playGame()
         else:
             sub_title_colour_play = black
         # Options button
@@ -156,7 +157,7 @@ def menuScreen():
         pg.display.update()
         clock.tick(FPS)
 
-def play_game():
+def playGame():
     # Function variables
     answer_one_color = black
     answer_two_color = black
@@ -166,13 +167,14 @@ def play_game():
     new_question = True
     play_game_loop = True
     score = 0
+    game_length = 5
 
     # Get the question data - get one first no matter the loop
     # Formt is (x, y, ans, opts): (int, int, int, list[4])
     x, y, ans, opts = mq.question_generator()
 
     time_start = int(time.time())
-    time_end = time_start + 30
+    time_end = time_start + game_length
 
     while play_game_loop:
         # Timer text
@@ -180,10 +182,9 @@ def play_game():
         time_remaining = str(int(time_end - time_now))
 
         if int(time_remaining) <= 0:
-            print("done!")
             play_game_loop = False
             screen_display.fill(white)
-            menuScreen()
+            endScreen(score)
 
         if new_question:
             # Get the question data
@@ -314,8 +315,121 @@ def play_game():
 
         # Updating screen
         pg.display.update()
-        t = clock.tick(FPS)
-        print(t)
+        clock.tick(FPS)
+
+def endScreen(user_score):
+
+    # Translation factor for the score and high score text
+    shift_y = 20
+
+    sub_title_colour_high_score = blue
+    sub_title_colour_play_again = black
+    sub_title_colour_main_menu = black
+    
+    highscore = getHighscore()
+
+    # Changing the end colours on the screen and saving scores
+    if user_score > highscore:
+        sub_title_colour_score = green
+
+        with open("highscores.csv", "w") as f:
+            writer = csv.DictWriter(f, fieldnames=['name', 'score'])
+            writer.writeheader()
+            writer.writerows([{'name': 'anon', 'score': user_score}])
+
+        if user_score == highscore:
+            sub_title_colour_high_score = green
+    elif user_score < highscore:
+        sub_title_colour_score = red
+    else:
+        sub_title_colour_score = blue
+
+    # End screen loop
+    end_screen_loop = True
+    while end_screen_loop:
+        # Mouse button click variable
+        click = False
+
+        # Game over text
+        title_text = title_font.render("game over!", True, black)
+        title_rect = title_text.get_rect()
+        title_rect.center = (display_width // 2, display_height // 8)
+
+        # Computing the available y-space
+        bottom_y = title_rect[1] + title_rect[3] + 50
+        spare_y = display_height - bottom_y
+        y_locations = [bottom_y, bottom_y + ((spare_y // 4)*1), bottom_y + ((spare_y // 4)*2), bottom_y + ((spare_y // 4)*3)]
+
+        # Score text
+        score_text = title2_font.render(f"score: {user_score}", True, sub_title_colour_score)
+        score_rect = score_text.get_rect()
+        score_rect.center = (display_width // 2, y_locations[0] - shift_y)
+
+        # High score text
+        high_score_text = title2_font.render(f"high score: {highscore}", True, sub_title_colour_high_score)
+        high_score_rect = high_score_text.get_rect()
+        high_score_rect.center = (display_width // 2, y_locations[1] - shift_y)
+
+        # Play again text
+        play_again_text = title2_font.render("play again", True, sub_title_colour_play_again)
+        play_again_rect = play_again_text.get_rect()
+        play_again_rect.center = (display_width // 2, y_locations[2])
+
+        # Main menu text
+        main_menu_text = title2_font.render("main menu", True, sub_title_colour_main_menu)
+        main_menu_rect = main_menu_text.get_rect()
+        main_menu_rect.center = (display_width // 2, y_locations[3])
+
+        # Filling background colour
+        screen_display.fill(white)
+
+        # Game over title and texts display
+        screen_display.blit(title_text, title_rect)
+        screen_display.blit(score_text, score_rect)
+        screen_display.blit(high_score_text, high_score_rect)
+        screen_display.blit(play_again_text, play_again_rect)
+        screen_display.blit(main_menu_text, main_menu_rect)
+
+        # Checking if x-button pressed
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                end_screen_loop = False
+                pg.display.quit()
+                pg.quit()
+                sys.exit("Game Quit: X-button clicked (0)")
+            # If mouse button is clicked then change click to true
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        # Buton interactivity
+        # Play again button
+        if play_again_rect.collidepoint(pg.mouse.get_pos()):
+            sub_title_colour_play_again = gray
+            if click:
+                end_screen_loop = False
+                playGame()
+        else:
+            sub_title_colour_play_again = black
+        # Main menu button
+        if main_menu_rect.collidepoint(pg.mouse.get_pos()):
+            sub_title_colour_main_menu = gray
+            if click:
+                end_screen_loop = False
+                menuScreen()
+        else: sub_title_colour_main_menu = black
+
+        # Updating screen
+        pg.display.update()
+        clock.tick(FPS)
+
+def getHighscore():
+    # Read data from the CSV file
+    with open("highscores.csv", mode="r") as file:
+        reader = csv.DictReader(file)
+        first_row = next(reader)  # Get the first row
+        # Extract and return the score value
+        return int(first_row["score"])
 
 if __name__ == "__main__":
     menuScreen()

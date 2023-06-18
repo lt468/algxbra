@@ -1,6 +1,5 @@
 """The file to create questions and answers for the game"""
 # Importing modules
-# Tests 
 import random
 
 # For now, will just generate basic addition questions
