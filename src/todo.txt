@@ -1,3 +1,5 @@
+In this branch, the goal will be to base the game off the default 1280x720p resolution. Only need to render the text once or have a way to stop repeating code
+
 Add a login/sign-up screen at the start, able to sign-in or play as a guest (check with the login stuff that was used with cs50 django/flask)
 Then have an easy, medium, hard mode and use SQL to store it all
 Use the options menu to be able to logout, wipe highscores, etc. Don't worry about scaling properly

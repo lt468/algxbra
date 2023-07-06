@@ -66,7 +66,7 @@ title2_font = pg.font.Font("../mda/conthrax-sb.otf", int(48 * average_scaling_fa
 title3_font = pg.font.Font("../mda/conthrax-sb.otf", int(32 * average_scaling_factor))
 
 # Creating screen 
-screen_display = pg.display.set_mode((0,0), pg.FULLSCREEN)
+screen_display = pg.display.set_mode((1280,720))
 
 # Setting title_text and icon
 pg.display.set_caption("algxbra") 
