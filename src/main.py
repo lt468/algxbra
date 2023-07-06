@@ -34,11 +34,6 @@ blue = (0, 0, 255)
 # FPS
 FPS = 30
 
-# Fonts
-title_font = pg.font.Font("../mda/conthrax-sb.otf", 92)
-title2_font = pg.font.Font("../mda/conthrax-sb.otf", 64)
-title3_font = pg.font.Font("../mda/conthrax-sb.otf", 48)
-
 # Display size
 display_width_default = 854 
 display_height_default = 480
@@ -51,8 +46,8 @@ display_height_native = fetch_dim.current_h # Gets the height
 
 # Sets the display width and heigth to the default values
 # Replace with native to have fullscreen windowed mode
-display_width = display_width_default 
-display_height = display_height_default
+display_width = display_width_native
+display_height = display_height_native
 
 # Dimensions
 dim = [display_width, display_height]
@@ -60,11 +55,18 @@ dim_halved = ((display_width // 2), (display_height // 2))
 mid_of_screen = (int((display_width_native / 2)), int((display_height_native / 2)))
 sub_titles_dim = (dim_halved[1], dim_halved[1] + (dim_halved[1] // 3), dim_halved[1] + (dim_halved[1]*2 // 3) )
 
-# Normalization - TODO with magnitudes and vector normalization
-# mag = math.sqrt(((display_width / display_width_default) ** 2) + ((display_height / display_height_default) ** 2))
+# Scaling
+width_scaling_factor = display_width_native / 480
+height_scaling_factor = display_height_native / 854
+average_scaling_factor = (width_scaling_factor + height_scaling_factor) / 2
+
+# Fonts
+title_font = pg.font.Font("../mda/conthrax-sb.otf", int(72 * average_scaling_factor))
+title2_font = pg.font.Font("../mda/conthrax-sb.otf", int(48 * average_scaling_factor))
+title3_font = pg.font.Font("../mda/conthrax-sb.otf", int(32 * average_scaling_factor))
 
 # Creating screen 
-screen_display = pg.display.set_mode(dim)
+screen_display = pg.display.set_mode((0,0), pg.FULLSCREEN)
 
 # Setting title_text and icon
 pg.display.set_caption("algxbra") 
@@ -167,7 +169,7 @@ def playGame():
     new_question = True
     play_game_loop = True
     score = 0
-    game_length = 5
+    game_length = 10
 
     # Get the question data - get one first no matter the loop
     # Formt is (x, y, ans, opts): (int, int, int, list[4])
@@ -175,6 +177,8 @@ def playGame():
 
     time_start = int(time.time())
     time_end = time_start + game_length
+
+    bottom_y_pad = int(20 * average_scaling_factor)
 
     while play_game_loop:
         # Timer text
@@ -202,7 +206,7 @@ def playGame():
         question_rect.center = (display_width // 2, display_height // 8)
 
         # Computing the available y-space
-        bottom_y = question_rect[1] + question_rect[3] + 50
+        bottom_y = question_rect[1] + question_rect[3] + int(bottom_y_pad * average_scaling_factor)
         spare_y = display_height - bottom_y
         y_locations = [bottom_y, bottom_y + ((spare_y // 4)*1), bottom_y + ((spare_y // 4)*2), bottom_y + ((spare_y // 4)*3)]
 
@@ -320,7 +324,8 @@ def playGame():
 def endScreen(user_score):
 
     # Translation factor for the score and high score text
-    shift_y = 20
+    shift_y = int(20 * average_scaling_factor)
+    bottom_y_pad = int(20 * average_scaling_factor)
 
     sub_title_colour_high_score = blue
     sub_title_colour_play_again = black
@@ -331,14 +336,15 @@ def endScreen(user_score):
     # Changing the end colours on the screen and saving scores
     if user_score > highscore:
         sub_title_colour_score = green
+        sub_title_colour_high_score = green
+        highscore = user_score
 
+        # Saving new highscore
         with open("highscores.csv", "w") as f:
             writer = csv.DictWriter(f, fieldnames=['name', 'score'])
             writer.writeheader()
             writer.writerows([{'name': 'anon', 'score': user_score}])
 
-        if user_score == highscore:
-            sub_title_colour_high_score = green
     elif user_score < highscore:
         sub_title_colour_score = red
     else:
@@ -356,19 +362,19 @@ def endScreen(user_score):
         title_rect.center = (display_width // 2, display_height // 8)
 
         # Computing the available y-space
-        bottom_y = title_rect[1] + title_rect[3] + 50
+        bottom_y = title_rect[1] + title_rect[3] + bottom_y_pad
         spare_y = display_height - bottom_y
         y_locations = [bottom_y, bottom_y + ((spare_y // 4)*1), bottom_y + ((spare_y // 4)*2), bottom_y + ((spare_y // 4)*3)]
 
         # Score text
         score_text = title2_font.render(f"score: {user_score}", True, sub_title_colour_score)
         score_rect = score_text.get_rect()
-        score_rect.center = (display_width // 2, y_locations[0] - shift_y)
+        score_rect.center = (display_width // 2, y_locations[0] - (int(1/2 * shift_y)))
 
         # High score text
         high_score_text = title2_font.render(f"high score: {highscore}", True, sub_title_colour_high_score)
         high_score_rect = high_score_text.get_rect()
-        high_score_rect.center = (display_width // 2, y_locations[1] - shift_y)
+        high_score_rect.center = (display_width // 2, y_locations[1] - (int(3/2 * shift_y)))
 
         # Play again text
         play_again_text = title2_font.render("play again", True, sub_title_colour_play_again)
