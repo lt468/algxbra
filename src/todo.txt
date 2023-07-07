@@ -1,8 +1,7 @@
-In this branch, the goal will be to base the game off the default 1280x720p resolution. Only need to render the text once or have a way to stop repeating code
+2) Create an easy, medium, hard mode 
+3) Create the options screen to choose easy, medium, hard mode and reset highscores
 
-Add a login/sign-up screen at the start, able to sign-in or play as a guest (check with the login stuff that was used with cs50 django/flask)
-Then have an easy, medium, hard mode and use SQL to store it all
-Use the options menu to be able to logout, wipe highscores, etc. Don't worry about scaling properly
-Once all of this is done, upload as final project then get on with the Web dev, aiming to have it all done by the 15th
+THEN YOU ARE DONE
+
 
 
