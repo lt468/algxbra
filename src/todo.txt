@@ -1,9 +1,3 @@
 2) Create an easy, medium, hard mode 
-3) Create the options screen to choose easy, medium, hard mode and reset highscores
-
-I need to rescale the positioning for the answers especially so they are dependent on the new resolutions
-They need to be depnent all on the resolution and based off the screen size, not the distances of rectangles elsewhere (as they will also change) 
-
-THEN YOU ARE DONE
 
 

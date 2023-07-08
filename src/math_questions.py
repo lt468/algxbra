@@ -22,6 +22,7 @@ def question_generator_easy():
     # opts = {x}
     # while len(opts) < no_opts:
     #     opts.add(random.randint(MIN, ans))
+    # Which caused an infinite loop and I believe it is to do with shuffling the opts as it was set (a set is always ordered by definition)
 
     random.shuffle(opts)
 
