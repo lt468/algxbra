@@ -19,6 +19,8 @@ This project is my submission for Harvard University's CS50x course, an introduc
 
 algxbra is designed to improve math skills by providing a fun and interactive gaming experience. The game presents arithmetic questions where the player needs to solve for the value of 'x'. The difficulty level can be adjusted, and the player aims to achieve a high score within a time limit.
 
+For more information about Harvard University's CS50x course, you can visit the [official course page](https://pll.harvard.edu/course/cs50-introduction-computer-science).
+
 ## Features
 - Interactive main menu screen
 - Difficulty selection (Easy, Medium, Hard)
