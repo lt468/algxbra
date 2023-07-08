@@ -27,3 +27,55 @@ def question_generator_easy():
     random.shuffle(opts)
 
     return (x, y, ans, opts)
+
+def question_generator_med():
+    MAX = 50
+    MIN = 10
+
+    ans = random.randint(MIN, MAX)
+    y = random.randint(MIN, ans)
+    x = ans - y
+
+    # Generate options list
+    opts = [x]
+    while len(opts) < 4:
+        opt = random.randint(MIN, MAX)
+        if opt not in opts:
+            opts.append(opt)
+
+    random.shuffle(opts)
+
+    return (x, y, ans, opts)
+
+def question_generator_hard():
+    MAX = 30
+    MIN = -10
+
+    ans = random.randint(MIN, MAX)
+    y = random.randint(MIN, ans)
+    x = ans - y
+
+    # Generate options list
+    opts = [x]
+    while len(opts) < 4:
+        opt = random.randint(MIN, MAX)
+        if opt not in opts:
+            opts.append(opt)
+
+    random.shuffle(opts)
+
+    return (x, y, ans, opts)
+
+
+def question(mode):
+    match mode:
+        case "Easy":
+            output = question_generator_easy()
+            return output
+        case "Medium":
+            output = question_generator_med()
+            return output
+        case "Hard":
+            output = question_generator_hard()
+            return output
+

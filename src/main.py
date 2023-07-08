@@ -25,9 +25,6 @@ blue = (0, 0, 255)
 # FPS
 FPS = 30
  
-# Difficulty
-difficulty = "easy"
-
 # Default Display size
 display_width_default = 1280
 display_height_default = 720
@@ -93,6 +90,34 @@ def resetHighScores():
     conn.commit()
     cursor.close()
     conn.close()
+
+def getDifficulty():
+
+    # Get difficulty from SQL database
+    conn = sqlite3.connect("../data/highscores.db") # Connect to SQL DB
+    cursor = conn.cursor() # Create a cursor
+    cursor.execute(f"SELECT * FROM mode WHERE Name='guest';") # Execture a command
+
+    difficulty = cursor.fetchall()[0][0]
+
+    # Close connection to SQL DB
+    cursor.close()
+    conn.close()
+    
+    return difficulty
+
+def updateDifficulty(mode):
+
+    # Updating difficulty to SQL database
+    conn = sqlite3.connect("../data/highscores.db") # Connect to SQL DB
+    cursor = conn.cursor() # Create a cursor
+    cursor.execute(f"UPDATE mode SET difficulty = ? WHERE Name = 'guest';", (mode,))
+
+    # Close connection to SQL DB
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
 
 """ Screen functions"""
 def menuScreen():
@@ -175,24 +200,15 @@ def optionsScreen():
     reset_but_colour = black
     back_but_colour = black
 
-    # Get difficulty from SQL database
-    conn = sqlite3.connect("../data/highscores.db") # Connect to SQL DB
-    cursor = conn.cursor() # Create a cursor
-    cursor.execute(f"SELECT * FROM mode;") # Execture a command
-
-    global difficulty
-    difficulty = cursor.fetchall()[0][0]
-
-    # Close connection to SQL DB
-    cursor.close()
-    conn.close()
+    # Difficulty
+    difficulty = getDifficulty()
 
     match difficulty:
-        case "easy":
+        case "Easy":
             easy_but_colour = green
-        case "medium":
+        case "Medium":
             med_but_colour = green
-        case "hard":
+        case "Hard":
             hard_but_colour = green
 
     while options_screen_loop:
@@ -234,8 +250,9 @@ def optionsScreen():
         if easy_but.collidepoint(pg.mouse.get_pos()):
             easy_but_colour = gray
             if click:
-                difficulty = "easy"
-        elif difficulty == "easy":
+                updateDifficulty("Easy")
+                difficulty = "Easy"
+        elif difficulty == "Easy":
             easy_but_colour = green
             med_but_colour = black
             hard_but_colour = black
@@ -243,8 +260,9 @@ def optionsScreen():
         if med_but.collidepoint(pg.mouse.get_pos()):
             med_but_colour = gray
             if click:
-                difficulty = "medium"
-        elif difficulty == "medium":
+                updateDifficulty("Medium")
+                difficulty = "Medium"
+        elif difficulty == "Medium":
             med_but_colour = green
             easy_but_colour = black
             hard_but_colour = black
@@ -252,8 +270,9 @@ def optionsScreen():
         if hard_but.collidepoint(pg.mouse.get_pos()):
             hard_but_colour = gray
             if click:
-                difficulty = "hard"
-        elif difficulty == "hard":
+                updateDifficulty("Hard")
+                difficulty = "Hard"
+        elif difficulty == "Hard":
             hard_but_colour = green
             easy_but_colour = black
             med_but_colour = black
@@ -347,6 +366,9 @@ def playGame():
     ans_four_colour = black
     timer_colour = black
 
+    # Get difficulty
+    difficulty = getDifficulty()
+
     # Game variables
     new_question = True
     score = 0
@@ -354,7 +376,7 @@ def playGame():
 
     # Get the question data - get one first no matter the loop
     # Formt is (x, y, ans, opts): (int, int, int, list[4])
-    x, y, ans, opts = mq.question_generator_easy()
+    x, y, ans, opts = mq.question(difficulty)
 
     # Time for the game length
     time_start = int(time.time())
@@ -388,7 +410,7 @@ def playGame():
 
         if new_question:
             new_question = False
-            x, y, ans, opts = mq.question_generator_easy()
+            x, y, ans, opts = mq.question(difficulty)
 
         # Filling background colour
         screen_display.fill(white)
@@ -473,6 +495,8 @@ def gameOver(user_score):
     score_colour = black
     button_colour_play_again = black
     button_colour_main_menu = black
+
+    difficulty = getDifficulty()
 
     # Get user high score from SQL database
     conn = sqlite3.connect("../data/highscores.db") # Connect to SQL DB
