@@ -317,8 +317,8 @@ def playGame():
         else:
             answer_four_color = black
 
-        # Updating screen
         pg.display.update()
+        # Updating screen
         clock.tick(FPS)
 
 def endScreen(user_score):

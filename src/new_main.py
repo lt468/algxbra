@@ -1,5 +1,4 @@
 """ The file that runs the main menu screen and other screens for now"""
-
 # Importing libraries
 import pygame as pg
 import sys
@@ -30,7 +29,6 @@ gray = (128, 128, 128)
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
-
 
 # FPS
 FPS = 30
@@ -64,16 +62,11 @@ pg.display.set_icon(icon)
 
 # Fonts and sizes (everything based off of 1280x720)
 main_font = "../mda/conthrax-sb.otf"
-title_size = 96
-sub_title_size = 72
-answer_size = 60
-small_title_size = 32
-
 # Calculate the scaled font sizes for title and subtitle
-title_size = int(title_size * average_scaling_factor)
-sub_title_size = int(sub_title_size * average_scaling_factor)
-answer_size = int(answer_size * average_scaling_factor)
-small_title_size = int(small_title_size * average_scaling_factor)
+title_size = int(96 * average_scaling_factor)
+sub_title_size = int(72 * average_scaling_factor)
+answer_size = int(60 * average_scaling_factor)
+small_title_size = int(32 * average_scaling_factor)
 
 # Clock
 clock = pg.time.Clock()
@@ -100,19 +93,6 @@ def menuScreen():
         # Mouse button click variable
         click = False
 
-        # Filling background color
-        screen_display.fill(white)
-
-        # Title text
-        render_text(main_font, title_size, "algxbra", black, (dim[0] // 2, dim[1] // 8))
-
-        # Render the subtitles, put the center of the group of subtitles two thirds down the screen
-        play_rect = render_text(main_font, sub_title_size, "play", button_colour_play, (dim[0] // 2, (dim[1]*2/3 - (3/2 * sub_title_size)) ))
-        options_rect = render_text(main_font, sub_title_size, "options", button_colour_opt, (dim[0] // 2, (dim[1]*2/3) ))
-        quit_rect = render_text(main_font, sub_title_size, "quit", button_colour_quit, (dim[0] // 2, (dim[1]*2/3 + (3/2 * sub_title_size)) ))
-
-        # Buton interactivity
-
         # Checking if x-button pressed
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -124,6 +104,17 @@ def menuScreen():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
+
+        # Filling background color
+        screen_display.fill(white)
+
+        # Title text
+        render_text(main_font, title_size, "algxbra", black, (dim[0] // 2, dim[1] // 8))
+
+        # Render the subtitles, put the center of the group of subtitles two thirds down the screen
+        play_rect = render_text(main_font, sub_title_size, "play", button_colour_play, (dim[0] // 2, (dim[1]*2/3 - (3/2 * sub_title_size)) ))
+        options_rect = render_text(main_font, sub_title_size, "options", button_colour_opt, (dim[0] // 2, (dim[1]*2/3) ))
+        quit_rect = render_text(main_font, sub_title_size, "quit", button_colour_quit, (dim[0] // 2, (dim[1]*2/3 + (3/2 * sub_title_size)) ))
 
         # Play button
         if play_rect.collidepoint(pg.mouse.get_pos()):
@@ -157,7 +148,7 @@ def menuScreen():
         clock.tick(FPS)
 
 def playGame():
-    # Main menu loop
+    # Play game loop
     play_game_loop = True
 
     # Sets the colour first to black of the buttons
@@ -170,11 +161,11 @@ def playGame():
     # Game variables
     new_question = True
     score = 0
-    game_length = 30
+    game_length = 10
 
     # Get the question data - get one first no matter the loop
     # Formt is (x, y, ans, opts): (int, int, int, list[4])
-    x, y, ans, opts = mq.question_generator()
+    x, y, ans, opts = mq.question_generator_easy()
 
     # Time for the game length
     time_start = int(time.time())
@@ -201,21 +192,21 @@ def playGame():
         time_remaining = str(int(time_end - time_now))
 
         if int(time_remaining) <= 0:
-            pass
+            play_game_loop = False
+            gameOver(score)
         elif int(time_remaining) <= 5:
             timer_colour = red
 
-
         if new_question:
             new_question = False
-            x, y, ans, opts = mq.question_generator()
+            x, y, ans, opts = mq.question_generator_easy()
 
         # Filling background colour
         screen_display.fill(white)
 
         # Question text
         question_string = f"x + {y} = {ans}"
-        question_rect = render_text(main_font, title_size, question_string, black, (dim[0] // 2, dim[1] //8))
+        render_text(main_font, title_size, question_string, black, (dim[0] // 2, dim[1] //8))
         
         # Answers text (from the bottom up)
         ans_four_string = f"x = {opts[3]}"
@@ -285,6 +276,87 @@ def playGame():
         pg.display.update()
         clock.tick(FPS)
 
-# Run programme
+def gameOver(user_score):
+    # Game over screen loop
+    game_over_loop = True
+
+    # Variables for the screen
+    difficulty = "Easy"
+    score_colour = black
+    button_colour_play_again = black
+    button_colour_main_menu = black
+
+    # Get user high score from SQL database
+    conn = sqlite3.connect("../data/highscores.db") # Connect to SQL DB
+    cursor = conn.cursor() # Create a cursor
+    cursor.execute(f"SELECT {difficulty} FROM highscores WHERE Name='guest';") # Execture a command
+    result = cursor.fetchall()
+    highscore = result[0][0]
+
+    # Seeing if user beat highscore and changes colour of text accordingly
+    if user_score > highscore:
+        highscore = user_score
+        cursor.execute(f"UPDATE highscores SET {difficulty}={highscore} WHERE Name='guest';")
+        score_colour = green
+    elif user_score == highscore:
+        score_colour = blue
+
+    # Close connection to SQL DB
+    cursor.close()
+    conn.close()
+
+    while game_over_loop:
+        # Loop variables
+        click = False
+
+        # Checking if x-button pressed
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                game_over_loop = False
+                pg.display.quit()
+                pg.quit()
+                sys.exit("Game Quit: X-button clicked (0)")
+            # If mouse button is clicked then change click to true
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        # Filling background colour
+        screen_display.fill(white)
+
+        # Game over text
+        render_text(main_font, title_size, "Game over", black, (dim[0] // 2, dim[1] // 8))
+
+        # Score and high score text
+        render_text(main_font, sub_title_size, f"score: {user_score}", score_colour, (dim[0] // 2, 3*dim[1] // 8))
+        render_text(main_font, answer_size, f"high score: {user_score}", blue, (dim[0] // 2, dim[1] // 2))
+
+        play_again_rect = render_text(main_font, sub_title_size, "play again", button_colour_play_again, (dim[0] // 2, (dim[1]*2/3) ))
+        menu_screen_rect = render_text(main_font, sub_title_size, "main menu", button_colour_main_menu, (dim[0] // 2, (dim[1]*2/3 + (3/2 * sub_title_size)) ))
+
+        # Play again button
+        if play_again_rect.collidepoint(pg.mouse.get_pos()):
+            button_colour_play_again = gray
+            if click:
+                game_over_loop = False
+                playGame()
+        else:
+            button_colour_play_again = black
+
+        # Main menu button
+        if menu_screen_rect.collidepoint(pg.mouse.get_pos()):
+            button_colour_main_menu = gray
+            if click:
+                game_over_loop = False
+                menuScreen()
+        else:
+            button_colour_main_menu = black
+
+        # Updating screen
+        pg.display.update()
+        clock.tick(FPS)
+
+
+""" Run programme"""
 if __name__ == "__main__":
     menuScreen()

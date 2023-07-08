@@ -2,27 +2,27 @@
 # Importing modules
 import random
 
-# For now, will just generate basic addition questions
-def question_generator():
-    # The equations will be in the form: x + y = ans; where x is the be found, y and ans are both randomly generated
-    # Will keep it double digit for now
-    MAX = 50
+def question_generator_easy():
+    MAX = 20
     MIN = 1
 
     ans = random.randint(MIN, MAX)
-
-    # Will also keep x positive for now
     y = random.randint(MIN, ans)
     x = ans - y
 
-    # Generate the total options including the real answer
-    no_opts = 4
-    opts = {x}
-    while len(opts) < no_opts:
-        opts.add(random.randint(MIN,ans))
+    # Generate options list
+    opts = [x]
+    while len(opts) < 4:
+        opt = random.randint(MIN, MAX)
+        if opt not in opts:
+            opts.append(opt)
 
-    # Randomly organize the options
-    opts = list(opts)
+    # Fun learning point: I was previously using this method of generating the options list
+    # no_opts = 4
+    # opts = {x}
+    # while len(opts) < no_opts:
+    #     opts.add(random.randint(MIN, ans))
+
     random.shuffle(opts)
 
-    return((x, y, ans, opts))
+    return (x, y, ans, opts)
