@@ -3,13 +3,13 @@
 Welcome to algxbra, a Python-based math game that helps you practice your algebra skills!
 
 ## Table of Contents
-    - [Introduction](#introduction)
-    - [Features](#features)
-    - [Requirements](#requirements)
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Contributing](#contributing)
-    - [License](#license)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Introduction
 
@@ -17,7 +17,7 @@ This project is my submission for Harvard University's CS50x course, an introduc
 
 **Please note:** algxbra is an open-source project, and you are free to use and modify the code as per the terms of the license.
 
-algxbra is designed to improve math skills by providing a fun and interactive gaming experience. The game presents arithmetic questions where the player needs to solve for the value of 'x'. The difficulty level can be adjusted, and the player aims to achieve a high score within a time limit. For more information about Harvard University's CS50x course, you can visit the [official course page](https://pll.harvard.edu/course/cs50-introduction-computer-science).
+algxbra is designed to improve math skills by providing a fun and interactive gaming experience. The game presents arithmetic questions where the player needs to solve for the value of 'x'. The difficulty level can be adjusted, and the player aims to achieve a high score within a time limit.
 
 ## Features
 - Interactive main menu screen
@@ -38,7 +38,8 @@ algxbra is designed to improve math skills by providing a fun and interactive ga
 
 2. Install the Pygame library using pip:
 
-`pip install pygame`
+   ```shell
+   pip install pygame
 
 ## Usage
 1. Clone the repository to your local machine or download the source code as a ZIP file and extract it.
@@ -47,7 +48,8 @@ algxbra is designed to improve math skills by providing a fun and interactive ga
 
 3. Run the following command to start the game:
 
-`python3 main.py`
+   ```shell
+   python3 main.py
 
 4. The game will launch, and you will see the main menu screen. Use the mouse to navigate and click on the options.
 
