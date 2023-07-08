@@ -1,18 +1,23 @@
 # algxbra
 
-algxbra is a simple math game implemented in Python using the Pygame library. It generates arithmetic questions and tests the player's ability to solve them within a time limit. This README provides an overview of the project and guides users on how to set up and run the game.
+Welcome to algxbra, a Python-based math game that helps you practice your algebra skills!
 
 ## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+    - [Introduction](#introduction)
+    - [Features](#features)
+    - [Requirements](#requirements)
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Contributing](#contributing)
+    - [License](#license)
 
 ## Introduction
-algxbra is designed to improve math skills by providing a fun and interactive gaming experience. The game presents arithmetic questions where the player needs to solve for the value of 'x'. The difficulty level can be adjusted, and the player aims to achieve a high score within a time limit.
+
+This project is my submission for Harvard University's CS50x course, an introduction to computer science. algxbra is a simple yet engaging game that generates algebraic equations for players to solve. It aims to provide an interactive and enjoyable way to enhance algebraic problem-solving abilities.
+
+**Please note:** algxbra is an open-source project, and you are free to use and modify the code as per the terms of the license.
+
+algxbra is designed to improve math skills by providing a fun and interactive gaming experience. The game presents arithmetic questions where the player needs to solve for the value of 'x'. The difficulty level can be adjusted, and the player aims to achieve a high score within a time limit. For more information about Harvard University's CS50x course, you can visit the [official course page](https://pll.harvard.edu/course/cs50-introduction-computer-science).
 
 ## Features
 - Interactive main menu screen
