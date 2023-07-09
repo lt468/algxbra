@@ -1,5 +1,7 @@
 # algxbra
 
+## Project Demo Video
+
 [![Project Demo Video](https://img.youtube.com/vi/JU4nGN1SDhg/0.jpg)](https://youtu.be/JU4nGN1SDhg)
 
 Welcome to algxbra, a Python-based math game that helps you practice your algebra skills!
