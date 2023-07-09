@@ -55,13 +55,15 @@ For more information about Harvard University's CS50x course, you can visit the 
 
 4. The game will launch, and you will see the main menu screen. Use the mouse to navigate and click on the options.
 
-5. In the main menu, you can select the difficulty level (Easy, Medium, or Hard) by clicking on the respective option.
+5. In the options menu, you can select the difficulty level (Easy, Medium, or Hard) by clicking on the respective option.
 
 6. Once the game starts, a math question will be displayed, and you need to select the correct answer from the multiple-choice options.
 
 7. The game has a time limit, and you must answer as many questions as possible within the given time.
 
 8. After the time runs out, the game over screen will be displayed, showing your score and the current high score. You can choose to play again or return to the main menu.
+
+9. You can choose to reset all highscores in the options menu if you wish to do so!
 
 ## Contributing
 Contributions to algxbra are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.

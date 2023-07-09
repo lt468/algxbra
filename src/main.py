@@ -372,7 +372,7 @@ def playGame():
     # Game variables
     new_question = True
     score = 0
-    game_length = 10
+    game_length = 30
 
     # Get the question data - get one first no matter the loop
     # Formt is (x, y, ans, opts): (int, int, int, list[4])
