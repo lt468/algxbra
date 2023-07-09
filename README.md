@@ -10,7 +10,7 @@ Welcome to algxbra, a Python-based math game that helps you practice your algebr
 
 This project is my submission for Harvard University's CS50x course, an introduction to computer science. algxbra is a simple yet engaging game that generates algebraic equations for players to solve. It aims to provide an interactive and enjoyable way to enhance algebraic problem-solving abilities. The project's name "algxbra" is pronounced as "Al-jeks-bra."
 
-I designed this project based on my A-level project, which unfortunately I lost the code for. However, I decided to give it another try and recreate it. In the process, I made certain design choices. For example, in `main.py`, I used different functions to easily recall different screens. In `math_questions.py`, I used a set to generate the answers to the questions, ensuring the uniqueness of numbers. However, this caused an infinite loop issue, possibly due to shuffling the set.
+I designed this project based on my A-level computer scince project, which unfortunately I lost the code for. However, I decided to give it another try and recreate it (and in a lot less time, this time!). In the process, I made certain design choices. For example, in `main.py`, I used different functions to easily recall different screens. In `math_questions.py`, I used a set to generate the answers to the questions, ensuring the uniqueness of numbers. However, this sometimes caused an infinite loop issue and the game would freeze, possibly due to shuffling the set. So instead, I utilized a list; you can view the conundrum in the source code.
 
 For more information about Harvard University's CS50x course, you can visit the [official course page](https://pll.harvard.edu/course/cs50-introduction-computer-science).
 
